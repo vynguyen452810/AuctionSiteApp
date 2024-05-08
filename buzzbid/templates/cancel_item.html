@@ -1,0 +1,48 @@
+{% include 'header.html' %}
+<script>
+    function backToCurrentItemPage(){
+        // Fucntion that redirect user back to current item detail page upon user clicking cancel button
+        var url_params = new URLSearchParams(window.location.search)
+        var itemID = url_params.get('item_id')
+        new_url = "/item_details?item_id=" + itemID  
+        window.location.href = new_url  
+        return new_url
+    }
+
+    function onSubmissionForm(){
+        var form = document.querySelector('form')
+        var url = backToCurrentItemPage()
+        form.action = url
+        return true
+    }
+
+</script>
+<body>
+ {% include 'top_menus.html' %}
+  <div class="container">
+      	{% include 'left_menus.html' %}
+	  	<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="title h3"><strong>Cancel Item</strong></div>
+                    {% if mesage is defined and mesage %}
+								<div class="alert alert-warning">{{ mesage }}</div>
+							{% endif %}
+                    <div class="edit-description item-id">Item ID: <strong>{{ item.itemID }}</strong></div>
+                    <div class="edit-description item-name">Item Name: <strong>{{ item.item_name }}</strong></div>
+                    <div class="edit-description item-description">Item Description: <strong>{{ item.item_description }}</strong></div><br>
+
+                    <div class="cancel-item">
+                        <form method="POST" action="{{ url_for('cancel_item', item_id=item.itemID) }}">
+                            <label for="cancelled_reason"><strong>Enter Cancelled Reason:</strong></label><br>
+                            <textarea id="cancelled_reason" name="cancelled_reason" rows="4" cols="50"></textarea><br>
+                            <button type="button" style="margin-bottom:10px;" class="btn btn-primary btn-sm  checkbox-toggle" onclick="backToCurrentItemPage()">Cancel</button>
+                            <input type="submit" id="cancelItem" name="cancelItem" value="Cancel Item" style="margin-bottom:10px;" class="btn btn-primary btn-sm  checkbox-toggle">
+                        </form>
+                    </div>
+				</div>
+			</div>
+	  	</div>
+	</div>
+</body>
+</html>

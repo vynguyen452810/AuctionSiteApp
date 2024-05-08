@@ -1,0 +1,107 @@
+<div class="wrapper">
+    <div class="sidebar" data-background-color="black" data-active-color="danger">
+    <div class="sidebar-wrapper" id="sideLinks">
+            <div class="logo">
+                <a href="{{ url_for('dashboard') }}" class="simple-text">
+                    Main Menu
+                </a>
+            </div>
+            <ul class="nav">
+                <li class="" id="dashboard">
+                    <a href="{{ url_for('dashboard') }}" class="menu-link">
+                        <i class="ti-dashboard"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li id="search_for_items">
+                    <a href="{{ url_for('search_items') }}" class="menu-link">
+                        <i class="ti-search"></i>
+                        <p>Search For Items</p>
+                    </a>
+                </li>
+                <li id="list_items">
+                    <a href="{{ url_for('list_items') }}" class="menu-link">
+                        <i class="ti-shopping-cart"></i>
+                        <p>List Items</p>
+                    </a>
+                </li>
+				<li id="view_auction_results">
+                    <a href="{{ url_for('auction_results') }}" class="menu-link">
+                        <i class="ti-crown"></i>
+                        <p>View Auction Results</p>
+                    </a>
+                </li>
+
+				{% if session['role'] == 'Admin' %}
+
+                <li id="category_report">
+                    <a href="{{ url_for('category') }}" class="menu-link">
+                        <i class="ti-harddrives"></i>
+                        <p>Category Report</p>
+                    </a>
+                </li>
+				<li id="user_report">
+                    <a href="{{ url_for('userReport') }}" class="menu-link">
+                        <i class="ti-briefcase"></i>
+                        <p>User Report</p>
+                    </a>
+                </li>
+				<li id="top_rated_items">
+					<a href="{{ url_for('topRated') }}" class="menu-link">
+					<i class="ti-blackboard"></i>
+					<p>Top Rated Items </p>
+					</a>
+				</li>   	
+                <li id="auction_statistics">
+					<a href="{{ url_for('aucStats') }}" class="menu-link">
+					<i class="ti-bar-chart-alt"></i>
+					<p>Auction Statistics </p>
+					</a>
+				</li>   	
+                <li id="cancelled_items">
+					<a href="{{ url_for('canAuction') }}" class="menu-link">
+					<i class="material-icons">&#xe5c9;</i>
+					<p>Cancelled Auctions </p>
+					</a>
+				</li>   
+				{% endif %}					
+            </ul>
+    	</div>
+    </div>
+
+<div class="main-panel">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar bar1"></span>
+					<span class="icon-bar bar2"></span>
+					<span class="icon-bar bar3"></span>
+				</button>
+				<a class="navbar-brand" href="#">BuzzBid Auction site</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="ti-user"></i>
+						<p class="notification"></p>
+						<p><strong><?php //echo $_SESSION["admin"]; ?></strong></p>
+						<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+						
+						<li>
+						<a href="{{ url_for('logout') }}"><i class="fa fa-power-off"></i> <strong>Logout</strong></a>
+						</li>
+						</ul>
+					</li>
+				</ul>
+				</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+

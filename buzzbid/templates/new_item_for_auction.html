@@ -1,0 +1,150 @@
+{% include 'header.html' %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+	
+
+	function checkCheckboxStatus() {
+		var checkBox = document.getElementById("returnCheckbox");
+		var hiddenInput = document.getElementById("jsValue"); 
+		// If the checkbox is checked, alert something
+		if (checkBox.checked) {
+			hiddenInput.value = "yes";
+		} else {
+			hiddenInput.value = "no";
+		}
+		console.log("Checkbox status updated to: ", hiddenInput.value);
+	}
+	
+	
+    
+	
+	
+</script>
+<body>
+ {% include 'top_menus.html' %}
+  <div class="container">        
+      {% include 'left_menus.html' %}    
+	  <div class="content">
+		<div class="container-fluid">   	
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title"><i class="ti-shopping-cart"></i> New Item for Auction</h3>
+						</div>
+						<form id="form1" action="{{ url_for('list_items')}}" method="post" accept-charset="utf-8">
+							{% if mesage is defined and mesage %}
+								<div class="alert alert-warning">{{ mesage }}</div>
+							{% endif %}
+							<div class="box-body">	
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="itemName">Item Name:</label>
+											<input type="text" class="form-control" id="itemName" name="itemName" required>
+											 
+										</div>
+									</div>
+								</div>	
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="itemDescription">Description:</label>
+											<input type="text" class="form-control" id="itemDescription" name="itemDescription" required>
+											 
+										</div>
+									</div>
+								</div>					
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="category">Category</label>
+											<select id="category" name="category" class="form-control" required>
+												<option value=""> </option>
+												{% for category in categories %}								
+													<option value="{{category.category_name}}" >{{category.category_name}}</option>				
+												{% endfor %}												
+											</select>
+										</div>
+									</div>									
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="condition">Condition:</label>
+											<select id="condition" name="condition" class="form-control" required>
+												<option value=""> </option>
+												<option value="New">New</option>
+												<option value="Very Good">Very Good</option>
+												<option value="Good">Good</option>
+												<option value="Fair">Fair</option>
+												<option value="Poor">Poor</option>						
+											</select>
+										</div>
+									</div>									
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="startBid">Start auction bidding at $</label>
+											<input type="number" class="form-control" id="startBid" name="startBid" min="0" step="5" required>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="minBid">Minimum sale Price $</label>
+											<input type="number" class="form-control" id="minBid" name="minBid"  min="0" step="1" required>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="auctionEnd">Auction ends in</label>
+											<select id="auctionEnd" class="form-control" name="auctionEnd" required>
+												<option value=""></option>
+												<option value="1">1 days</option>
+												<option value="3">3 days</option>
+												<option value="5">5 days</option>
+												<option value="7">7 days</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="getPrice">Get It Now price $ (optional)</label>
+											<input type="number" class="form-control" id="getPrice" name="getPrice"  min="0" step="1">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8">
+										<div class="form-group">
+											<label for="returnCheckbox">Returns Accepted?</label>
+											<input type="checkbox"  id="returnCheckbox" name="returnCheckbox">
+											<input type="hidden" id="jsValue" name="jsValue">
+											
+											<br>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="box-footer">
+								<button type="button" style="margin-bottom:10px;" class="btn btn-primary btn-sm  checkbox-toggle" onclick="location.href='/dashboard'">Cancel</button>
+            					<button id="listMyItem" type="submit" name="listMyItem" style="margin-bottom:10px;" class="btn btn-primary btn-sm  checkbox-toggle" onclick="checkCheckboxStatus()">List My Item</button> <br>
+							</div>
+						</form>
+					</div>					
+											
+				</div>
+			</div>
+		</div>	
+	</div>
+  </div>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+{% include 'header.html' %}
+<head>
+	<style>
+		#icons {
+		list-style: none;
+	
+		margin: 0;
+		padding: 0;
+		float: right;
+	
+		margin-top: 10px;
+		margin-right: 5px;
+		}
+		#icons li {
+		display: inline-block;
+		}
+	</style>
+	
+</head>
+<body>
+  <div class="container" id="main">
+ 
+  <div role="navigation" class="navbar navbar-default navbar-static-top">
+
+	<div class="navbar-header">
+	  <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	  </button>
+	  <a href="{{ url_for('login') }}" class="navbar-brand">BUZZBID</a>
+	</div>
+	
+  
+</div>
+    <div class="row row-offcanvas row-offcanvas-left">
+	   <h2>Buzzbid New User Registration</h2>      
+       <div class="col-lg-3 col-lg-4 main"> 
+		<ul id="icons">
+			<li><object type="image/png" data="/static/assets/img/buzzbid-icon.png"></object></li>
+		</ul>
+		<div style="clear: both;"></div>
+				<!--<link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/img/buzzbid-icon.png') }}"></div>-->
+		
+		</div>
+		</div>
+		<form action="{{ url_for('register') }}" method="post">
+			{% if mesage is defined and mesage %}
+				<div class="alert alert-warning">{{ mesage }}</div>
+			{% endif %}
+			<div class="form-group">
+				<label for="firstname">First Name:</label>
+				<input type="firstname" class="form-control" id="firstname" name="firstname" placeholder="Enter firstname" >
+			</div>
+			<div class="form-group">
+				<label for="lastname">Last Name:</label>
+				<input type="lastname" class="form-control" id="lastname" name="lastname" placeholder="Enter lastname">
+			</div>
+			<div class="form-group">
+				<label for="username">Username:</label>
+				<input type="username" class="form-control" id="username" name="username" placeholder="Enter username" >
+			</div>
+			<div class="form-group">
+				<label for="pwd">Password:</label>
+				<input type="password" class="form-control" id="password" name="password" placeholder="Enter password" >
+			</div>    
+			<div class="form-group">
+				<label for="pwd">Confirm Password:</label>
+				<input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm password" onkeyup="validate_password()" >
+			</div> 
+			<!-- Display password validation message here -->
+			<div id="wrong_pass_alert"></div>
+			<button type="button" class="btn btn-primary"  onclick="location.href='/login'">Cancel</button>
+			<button type="submit" class="btn btn-primary" id="register" onkeyup="validate_password()" >Register</button>
+			
+		 
+        
+        <hr>         
+       </div>       
+      </div>     
+    </div>
+	<script>
+		function validate_password() {
+ 
+            let password = document.getElementById('password').value;
+            let confirmpassword = document.getElementById('confirmpassword').value;
+            if (password != confirmpassword) {
+                document.getElementById('wrong_pass_alert').style.color = 'red';
+                document.getElementById('wrong_pass_alert').innerHTML
+                    = '☒ Use same password';
+                document.getElementById('register').disabled = true;
+                document.getElementById('register').style.opacity = (0.4);
+            } else {
+                document.getElementById('wrong_pass_alert').style.color = 'green';
+                document.getElementById('wrong_pass_alert').innerHTML =
+                    '🗹 Password Matched';
+                document.getElementById('register').disabled = false;
+                document.getElementById('register').style.opacity = (1);
+            }
+        }
+	</script>
+  </body>
+</html>

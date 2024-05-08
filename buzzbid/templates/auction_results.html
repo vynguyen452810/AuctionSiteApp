@@ -1,0 +1,53 @@
+{% include 'header.html' %}
+<body>
+ {% include 'top_menus.html' %}
+  <div class="container">
+      	{% include 'left_menus.html' %}
+	  	<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-md-10">
+								<h2 class="box-title"><i class="ti-crown"></i>Auction Results</h3>
+							</div>
+						</div>
+					</div>
+					<div class="box-body">
+						<table id="auctionResultsList" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th><u>ID</u></th>
+									<th><u>Item Name</u></th>
+									<th><u>Sale Price</u></th>
+									<th><u>Winner</u></th>
+									<th><u>Auction Ended</u></th>
+								</tr>
+							</thead>
+							<tbody>
+							{% for item in results %}
+							<tr>
+								<td>{{item.ID}}</td>
+								<td><a href="{{url_for('item_result', item_id=item.ID, winner=item.Winner)}}">{{item.ItemName}}</a></td>
+								<td>{{item.SalePrice}}</td>
+								<td>{{item.Winner}}</td>
+								<td>{{item.AuctionEnded}}</td>
+							</tr> 
+							{% endfor %}
+							</tbody>
+						</table>
+						<script>
+							document.querySelectorAll('td:last-child').forEach(td => {
+								td.textContent = td.textContent.replace(/\\/g, '');
+							});
+						</script>
+					</div>
+					<div class="box-footer">
+						<button type="button" style="margin-bottom:10px;" class="btn btn-primary checkbox-toggle" onclick="location.href='/dashboard'">Done</button>
+					</div>
+				</div>
+			</div>
+	  	</div>
+	</div>
+</body>
+</html>

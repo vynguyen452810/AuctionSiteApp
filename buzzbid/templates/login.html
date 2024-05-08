@@ -1,0 +1,77 @@
+{% include 'header.html' %}
+<head>
+	<style>
+		#icons {
+		list-style: none;
+	
+		margin: 0;
+		padding: 0;
+		float: right;
+	
+		margin-top: 10px;
+		margin-right: 5px;
+		}
+		#icons li {
+		display: inline-block;
+		}
+	</style>
+	
+</head>
+<body>
+  <div class="container" id="main">
+ 
+  <div role="navigation" class="navbar navbar-default navbar-static-top">
+
+	  <div class="navbar-header">
+		<button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+		  <span class="sr-only">Toggle navigation</span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button>
+		<a href="{{ url_for('login') }}" class="navbar-brand">BUZZBID</a>
+	  </div>
+	  
+	
+  </div>
+    <div class="row row-offcanvas row-offcanvas-left">
+	   <h2>Buzzbid Login</h2>      
+       <div class="col-lg-3 col-lg-4 main"> 
+		<ul id="icons">
+			<li><object type="image/png" data="/static/assets/img/buzzbid-icon.png"></object></li>
+		</ul>
+		<div style="clear: both;"></div>
+				<!--<link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/img/buzzbid-icon.png') }}"></div>-->
+		
+		</div>
+		</div>
+		<form action="{{ url_for('login') }}" method="post">
+			{% if mesage is defined and mesage %}
+				<div class="alert alert-warning">{{ mesage }}</div>
+			{% endif %}
+			<div class="col-md-6">
+			<div class="form-group">
+
+				<label for="username">Username:</label>
+				<input type="username" class="form-control" id="username" name="username" placeholder="Enter username" >
+			</div>
+			
+			<div class="form-group">
+				<label for="pwd">Password:</label>
+				<input type="password" class="form-control" id="password" name="password" placeholder="Enter password" >
+			</div>  
+			 
+			<!-- <p class="bottom">Dont't have an account?  <a class="bottom" href="{{url_for('register')}}"> Register here</a></p> -->
+			<!-- <button class="btn btn-primary" onclick="register_user()">Register</button> -->
+			<button type="button" class="btn btn-primary" onclick="location.href='/register'">Register</button>
+
+			<button type="submit" class="btn btn-primary">Login</button>
+		
+		</form>
+		</div>
+               
+       </div>       
+      </div>     
+    </div>
+  </body>
+</html>

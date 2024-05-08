@@ -1,0 +1,101 @@
+{% include 'header.html' %}
+
+<script>
+	function backToCurrentRatingPage(){
+        // Fucntion that redirect user back to current item detail page upon user clicking cancel button
+        var url_params = new URLSearchParams(window.location.search)
+        var itemID = url_params.get('item_id')
+        new_url = "/view_rating?item_id=" + itemID  
+        window.location.href = new_url  
+        return new_url
+    }
+
+    function onSubmissionForm(){
+        var form = document.querySelector('form')
+        var url = backToCurrentItemPage()
+        form.action = url
+        return true
+    }
+
+	function backToCurrentItemPage(){
+        // Fucntion that redirect user back to current item detail page upon user clicking cancel button
+        var url_params = new URLSearchParams(window.location.search)
+        var itemID = url_params.get('item_id')
+        new_url = "/item_details?item_id=" + itemID  
+        window.location.href = new_url  
+        return new_url
+    }
+
+</script>
+
+<body>
+ {% include 'top_menus.html' %}
+  <div class="container">
+      	{% include 'left_menus.html' %}
+	  	<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="title h3"><strong>Item Ratings</strong></div>
+					{% with messages = get_flashed_messages() %}
+						{% if messages %}
+						{% for message in messages %}
+						<div class="alert alert-warning">
+							{{ message }}
+						</div>
+						{% endfor %}
+						{% endif %}
+					{% endwith %}
+					<table id="itemDetails" class="table table-bordered none margin=10px">
+						<tr>
+							<th>Item ID</th>
+							<td>{{item.itemID}}</td>
+						</tr>
+						<tr>
+							<th>Item Name</th>
+							<td>{{item.item_name}}</td>
+						</tr>
+						<tr>
+							<th>Average Rating</th>
+							{% if  average_rating %}
+							<td>{{average_rating["Average Rating"]}}</td>
+							{% else %}
+							<td>N/A</td>
+							{% endif %}
+						</tr>
+					</table>
+				</div>
+				{% if ratings %}
+					{% for rating in ratings %}
+						{% if usertype == 'Admin' %}
+							<!-- <div class="rating admin">
+								<a href="{{url_for('delete_rating', item_id=item.itemID)}}" class="btn btn-danger">Delete</a>
+							</div> -->
+							<form method="POST" action="{{ url_for('delete_rating', item_id=rating.itemID, redirect='view_rating') }}">  
+								<input type="hidden" name="item_id" value="1">
+								<!-- <button type="submit" class="btn btn-danger">Delete</button> -->
+								<button type="submit" style="margin-bottom:10px;" class="btn btn-danger" onclick="backToCurrentRatingPage()">Delete</button>
+							</form>
+							<div class="rating-box">
+								<div class="individual-rating rated-by">Rated by: <strong>{{ rating['Rated By'] }}</strong></div>
+								<div class="individual-rating rate-date">Date: <strong>{{ rating['Date'] }}</strong></div>
+								<div class="individual-rating rate-stars">Stars: <strong>{{ rating['Star'] }}<i class="ti-star"></i></strong></div>
+								<div class="individual-rating rate-comment">Comment: <strong>{{ rating['Comment'] }}</strong></div>
+							</div><br>
+						{% else %}
+							<div class="rating-box">
+								<div class="individual-rating rated-by">Rated by: <strong>{{ rating['Rated By'] }}</strong></div>
+								<div class="individual-rating rate-date">Date: <strong>{{ rating['Date'] }}</strong></div>
+								<div class="individual-rating rate-stars">Stars: <strong>{{ rating['Star'] }}<i class="ti-star"></i></strong></div>
+								<div class="individual-rating rate-comment">Comment: <strong>{{ rating['Comment'] }}</strong></div>
+							</div><br>
+						{% endif %}
+					{% endfor %}
+				{% else %}
+					<br><div class="rating-detail no-rating"><strong>This Product Has No Ratings!</strong></div>
+				{% endif %}
+				<button type="button" style="margin-bottom:10px;" class="btn btn-primary btn-sm  checkbox-toggle" onclick="backToCurrentItemPage()">Close</button>
+			</div>
+	  	</div>
+	</div>
+</body>
+</html>

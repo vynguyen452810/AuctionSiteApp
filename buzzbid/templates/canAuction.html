@@ -1,0 +1,55 @@
+{% include 'header.html' %}
+
+<body>
+	{% include 'top_menus.html' %}
+	<div class="container">
+		{% include 'left_menus.html' %}
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-md-10">
+								<h3 class="panel-title h3"><i class="material-icons"
+										style="font-size:36px">cancel</i>Cancelled Auction Details</h3>
+							</div>
+						</div>
+					</div>
+					<br><br>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Listed by</th>
+								<th>Cancelled Date</th>
+								<th>Reason</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for canAuction in canAuctions %}
+							<tr>
+								<td>{{canAuction.ID}}</td>
+								<td>{{canAuction.Listed_by}}</td>
+								<td>{{canAuction.Cancelled_Date}}</td>
+								<td>{{canAuction.Reason}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					<script>
+						document.querySelectorAll('td').forEach(td => {
+							td.textContent = td.textContent.replace(/\\/g, '');
+						});
+					</script>
+					<hr>
+					<div class="box-footer">
+						<button type="button" style="margin-bottom:10px;" class="btn btn-primary checkbox-toggle"
+							onclick="location.href='/dashboard'">Done</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

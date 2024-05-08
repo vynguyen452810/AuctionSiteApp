@@ -1,0 +1,201 @@
+{% include 'header.html' %}
+<script>
+    function backToItemResultPage(){
+        // Fucntion that redirect user back to current item detail page upon user clicking cancel button
+        var url_params = new URLSearchParams(window.location.search)
+        var itemID = url_params.get('item_id')
+        var winner = url_params.get('winner')
+        new_url = `/item_result?item_id=${itemID}&winner=${winner}`
+        window.location.href = new_url  
+        return new_url
+    }
+
+    function backToCurrentRatingPage(){
+        // Fucntion that redirect user back to current item rating page upon user clicking Delete button
+        var url_params = new URLSearchParams(window.location.search)
+        var itemID = url_params.get('item_id')
+        var winner = url_params.get('winner')
+        new_url = `/item_rating?item_id=${itemID}&winner=${winner}`
+        window.location.href = new_url  
+        return new_url
+    }
+</script>
+
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .rate {
+            float: none;
+            height: 46px;
+            padding: 0 10px;
+        }
+
+        .rate:not(:checked)>input {
+            position: absolute;
+            top: -9999px;
+        }
+
+        .rate:not(:checked)>label {
+            float: right;
+            width: 1em;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 30px;
+            color: #ccc;
+        }
+
+        .rate:not(:checked)>label:before {
+            content: '★ ';
+        }
+
+        .rate>input:checked~label {
+            color: #ffc700;
+        }
+
+        .rate:not(:checked)>label:hover,
+        .rate:not(:checked)>label:hover~label {
+            color: #deb217;
+        }
+
+        .rate>input:checked+label:hover,
+        .rate>input:checked+label:hover~label,
+        .rate>input:checked~label:hover,
+        .rate>input:checked~label:hover~label,
+        .rate>label:hover~input:checked~label {
+            color: #c59b08;
+        }
+
+        .starRating {
+            display: flex;
+            align-items: center;
+            margin: 15px;
+            
+        }
+
+        .comments {
+            display: flex;
+            margin: 15px;
+        }
+
+        .input {
+             width: 100%;   
+             height: 125px;
+             border: 1px solid #ccc;
+             padding: 7px 18px;
+        }
+
+        .box-footer{
+            display: flex;
+            justify-content: end;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'top_menus.html' %}
+    <div class="container">
+        {% include 'left_menus.html' %}
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="ti-shopping-cart"></i> Rate Item</h3>
+            </div>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-warning">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <table id="itemDetails" class="table table-bordered none margin=10px">
+                <tr>
+                    <th>Item ID</th>
+                    <td>{{item.itemID}}</td>
+                </tr>
+                <tr>
+                    <th>Item Name</th>
+                    <td>{{item.item_name}}</td>
+                </tr>
+                <tr>
+                    <th>Average Rating</th>
+                    {% if  average_rating %}
+                    <td>{{average_rating["Average Rating"]}}</td>
+                    {% else %}
+                    <td>N/A</td>
+                    {% endif %}
+                </tr>
+            </table>
+                {% if ratings %}
+					{% for rating in ratings %}
+						{% if rating['Rated By'] == winner and usertype != 'Admin' and enable_delete_button %}
+							<a href="{{ url_for('delete_rating', item_id=rating.itemID, redirect='item_rating', winner=winner) }}" class="btn btn-primary update">Delete My Rating</a>
+						{% endif %}
+                        {% if usertype == 'Admin' %}
+							<a href="{{ url_for('delete_rating', item_id=rating.itemID, redirect='item_rating', winner=winner) }}" class="btn btn-primary update">Delete</a>
+						{% endif %}
+							<div class="rating-box">
+								<div class="individual-rating rated-by">Rated by: <strong>{{ rating['Rated By'] }}</strong></div>
+								<div class="individual-rating rate-date">Date: <strong>{{ rating['Date'] }}</strong></div>
+								<div class="individual-rating rate-stars">Stars: <strong>{{ rating['Star'] }}<i class="ti-star"></i></strong></div>
+								<div class="individual-rating rate-comment">Comment: <strong>{{ rating['Comment'] }}</strong></div>
+							</div><br>
+					{% endfor %}
+				{% else %}
+					<br><div class="rating-detail no-rating"><strong>This Product Has No Ratings!</strong></div>
+                {% endif %}
+                
+                {% if enable_comment_box %}
+                    <form id="form1" action="{{ url_for('item_rating', item_id=item.itemID)}}" method="post"
+                        accept-charset="utf-8">
+                        {% if mesage is defined and mesage %}
+                        <div class="alert alert-warning">{{ mesage }}</div>
+                        {% endif %}
+                        <div class="body">
+                            <div class="starRating margin-bottom:10px">
+                                <label for="'star">My Rating: </label>
+                                <div class="rate">
+                                    <input type="radio" id="star5" name="star" value="5" />
+                                    <label for="star5" title="text">5 stars</label>
+                                    <input type="radio" id="star4" name="star" value="4" />
+                                    <label for="star4" title="text">4 stars</label>
+                                    <input type="radio" id="star3" name="star" value="3" />
+                                    <label for="star3" title="text">3 stars</label>
+                                    <input type="radio" id="star2" name="star" value="2" />
+                                    <label for="star2" title="text">2 stars</label>
+                                    <input type="radio" id="star1" name="star" value="1" />
+                                    <label for="star1" title="text">1 star</label>
+                                </div>
+                            </div>
+                            <div class="comments">
+                                <label for="comment">Comments: </label>
+                                <textarea type="text" class="input" id="comment" name="comment" ></textarea>     
+                            </div>
+                            <div class="box-footer">
+                                <button type="button" style="margin-bottom:10px; margin-right:10px;"
+                                    class="btn btn-primary btn-sm  checkbox-toggle"
+                                    onclick="backToItemResultPage()">Close</button>
+                                <button type="submit" name="rateItem" value="Rate Item" style="margin-bottom:10px; margin-right:15px;"
+                                    class="btn btn-primary btn-sm  checkbox-toggle">Rate This Item</button>
+                                <br>
+                            </div>
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="box-footer">
+                        <button type="button" style="margin-bottom:10px; margin-right:10px;"
+                            class="btn btn-primary btn-sm  checkbox-toggle"
+                            onclick="backToItemResultPage()">Close</button>
+                        <br>
+                    </div>
+                {% endif %}
+        </div>
+
+    </div>
+</body>
+</html>

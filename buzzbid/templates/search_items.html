@@ -1,0 +1,127 @@
+{% include 'header.html' %}
+<body>
+ {% include 'top_menus.html' %}
+  <div class="container">        
+      {% include 'left_menus.html' %}    
+	  <div class="content">
+		<div class="container-fluid">   	
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title"><i class="fa fa-search"></i> Items Search</h3>
+						</div>
+						<form id="form1" action="{{ url_for('search_results')}}" method="post" accept-charset="utf-8">
+							{% if mesage %}
+          						  <div class="alert alert-info">{{ mesage }}</div>
+      						{% endif %}
+							<div class="box-body">	
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="keyword">Keyword</label>
+											<input type="text" class="form-control" id="keyword" name="keyword">
+										</div>
+									</div>
+								</div>					
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="category">Category</label>
+											<select id="itemcategory" name="itemcategory" class="form-control">
+												<option value=""> </option>
+												{% for category in categories %}								
+													<option value="{{category.category_name}}" {% if category.category_name == selected_category %} selected {% endif %}>{{category.category_name}}</option>				
+												{% endfor %}												
+											</select>
+										</div>
+									</div>									
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="minprice">Minimum Price $</label>
+											<input type="text" class="form-control" id="minprice" name="minprice">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="maxprice">Maximum Price $</label>
+											<input type="text" class="form-control" id="maxprice" name="maxprice">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="condition">Condition at least</label>
+											<select id="itemcondition" name="itemcondition" class="form-control">
+												<option value=""> </option>
+												{% for condition in conditions %}								
+													<option value="{{condition}}" {% if condition == selected_condition %} selected {% endif %}>{{condition}}</option>				
+												{% endfor %}	
+											</select>
+										</div>
+									</div>									
+								</div>
+							</div>
+							<div class="box-footer">
+								<button type="button" style="margin-bottom:10px;" class="btn btn-primary btn-sm  checkbox-toggle" onclick="location.href='/dashboard'">Cancel</button> <button type="submit" id="search" name="search" value="search" style="margin-bottom:10px;" class="btn btn-primary btn-sm  checkbox-toggle"><i class="fa fa-search"></i> Search</button> <br>
+							</div>
+						</form>
+						<script>
+							var keyword_value = '{{ keyword_value }}';
+							if ('{{ keyword_value }}' == 'None') {
+								keyword_value = ''
+							}
+							var minprice_value = '{{ minprice_value }}';
+							if ('{{ minprice_value }}' == 'None') {
+								minprice_value = ''
+							}
+							var maxprice_value = '{{ maxprice_value }}';
+							if ('{{ maxprice_value }}' == 'None') {
+								maxprice_value = ''
+							}
+							keyword_input = document.querySelector('#keyword');
+							keyword_input.value = keyword_value;
+							minprice_input = document.querySelector('#minprice');
+							minprice_input.value = minprice_value;
+							maxprice_input = document.querySelector('#maxprice');
+							maxprice_input.value = maxprice_value;
+						</script>
+					</div>					
+					<div class="row">					
+						<table id="searchResults" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th><u>ID</u></th>
+									<th><u>Item Name</u></th>
+									<th><u>Current Bid</u></th>	
+									<th><u>High Bidder</u></th>
+									<th><u>Get It Now Price</u></th>
+									<th><u>Auction Ends</u></th>													
+								</tr>
+							</thead>
+							<tbody>
+							    {% for item in items %}
+								<tr>
+									<td>{{item.itemID}}</td>
+									<td><a href="{{ url_for('item_details', item_id=item.itemID) }}">{{ item.item_name}}</a></td>  
+									<td>{{item.bid_amount}}</td>	
+									<td>{{item.username}}</td>
+									<td>{{item.get_it_now_price}}</td>
+									<td>{{item.auction_end_time}}</td>										
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>							
+				</div>
+			</div>
+		</div>	
+	</div>
+  </div>
+  </body>
+</html>

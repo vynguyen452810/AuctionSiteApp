@@ -1,0 +1,50 @@
+{% include 'header.html' %}
+
+<body>
+	{% include 'top_menus.html' %}
+	<div class="container">
+		{% include 'left_menus.html' %}
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<!-- <a href="#"><strong><span class="ti-blackboard"></span> Top Rated Items</strong></a>
+			<hr>	 -->
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-md-10">
+								<h3 class="panel-title h3"><i class="ti-blackboard"></i>Top Rated Items</h3>
+							</div>
+						</div>
+					</div>
+
+					<br><br>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Item Name</th>
+								<th>Average Rating</th>
+								<th>Rating Count</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for topRated in topRatedReports %}
+							<tr>
+								<td>{{topRated.Item_Name}}</td>
+								<td>{{topRated.Average_Rating}}</td>
+								<td>{{topRated.Rating_Count}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					<hr>
+					<div class="box-footer">
+						<button type="button" style="margin-bottom:10px;" class="btn btn-primary checkbox-toggle"
+							onclick="location.href='/dashboard'">Done</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

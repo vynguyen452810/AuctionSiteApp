@@ -1,0 +1,61 @@
+{% include 'header.html' %}
+<body>
+	{% include 'top_menus.html' %}
+	<div class="container">
+		{% include 'left_menus.html' %}
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-md-10">
+								<h3 class="panel-title h3"><i class="ti-bar-chart-alt"></i>Auction Statistics</h3>
+							</div>
+						</div>
+					</div>
+
+					<br><br>
+					<table class="table">
+						<tbody>
+							{% for aucStat in aucStats %}
+							<tr>
+								<th scope="row">Auctions Active</th>
+								<td>{{aucStat.Auctions_Active}}</td>
+							</tr>
+							<tr>
+								<th scope="row">Auctions Finished</th>
+								<td>{{aucStat.Auctions_Finished}}</td>
+							</tr>
+							<tr>
+								<th scope="row">Auctions Won</th>
+								<td>{{aucStat.Auctions_Won}}</td>
+							</tr>
+							<tr>
+								<th scope="row">Auctions Cancelled</th>
+								<td>{{aucStat.Auctions_Cancelled}}</td>
+							</tr>
+							<tr>
+								<th scope="row">Items Rated</th>
+								<td>{{aucStat.Items_Rated}}</td>
+							</tr>
+							<tr>
+								<th scope="row">Items Not Rated</th>
+								<td>{{aucStat.Items_Not_Rated}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					<hr>
+					<div class="box-footer">
+						<button type="button" style="margin-bottom:10px;" class="btn btn-primary checkbox-toggle"
+							onclick="location.href='/dashboard'">Done</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</body>
+
+</html>

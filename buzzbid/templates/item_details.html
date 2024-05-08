@@ -1,0 +1,152 @@
+{% include 'header.html' %}
+
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Get the item_id from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const itemId = urlParams.get('item_id');
+
+        // Assign the item_id to the value of the hidden input field
+        document.getElementById('bid_item_id').value = itemId;
+    });
+</script>
+
+<body>
+    {% include 'top_menus.html' %}
+    <div class="container">
+        {% include 'left_menus.html' %}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="detail-content">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="title h3"><strong>Item For Sale</strong></div>
+                                {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                {% for message in messages %}
+                                <div class="alert alert-warning">
+                                    {{ message }}
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                                {% endwith %}
+                                <div class="item-detail item-id">Item ID: <strong>{{ item.itemID }}</strong></div>
+                                <div class="item-detail item-ratings">
+                                    <a href="{{ url_for('view_rating', item_id=item.itemID) }}"
+                                        class="view-item-rating btn btn-primary btn-sm text-right">View Ratings</a>
+                                </div>
+                                <div class="item-detail item-name">Item Name: <strong>{{ item.item_name }}</strong>
+                                </div>
+                                <div class="item-detail item-description">Description: <strong>{{ item.item_description
+                                        }}</strong></div>
+                                {% if listedUser_username == currentUser_username %}
+                                <div class="item-detail item-edit-description">
+                                    <a href="{{ url_for('edit_item_description', item_id=item.itemID) }}"
+                                        class="edit-item-description btn btn-primary btn-sm text-right">Edit
+                                        Description</a>
+                                </div>
+                                {% endif %}
+                                <div class="item-detail item-category">Category: <strong>{{ item.category_name
+                                        }}</strong></div>
+                                <div class="item-detail item-condition">Condition: <strong>{{ item.item_condition
+                                        }}</strong></div>
+                                <div class="item-detail item-returnables">Returns Accepted:
+                                    <strong>{{ "Yes" if item.returnable else "No" }}</strong>
+                                </div>
+                                {% if item.get_it_now_price != None and listedUser_username != currentUser_username %}
+                                    <div class="item-detail item-get-it-now-price">Get It Now Price: 
+                                        <strong>{{ item.get_it_now_price }}</strong>
+                                        <!-- <button type="button" style="margin-bottom:10px;" class="btn btn-primary btn-sm  checkbox-toggle">Get It Now!</button> -->
+                                        <div class="item-detail item-get-it-now">
+                                            <a href="{{ url_for('get_it_now_price', item_id=item.itemID) }}" class="item-get-it-now btn btn-primary btn-sm text-right">Get It Now!</a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="item-detail item-auction-end-time">Auction End Time: <strong>{{ item.auction_end_time }}</strong></div>
+                                <div class="item-detail item-latest-bid">
+                                    <div class="latest-bid-title h4">Latest Bids</div>
+                                    <div class="latest-bid-content">
+                                        <table id="latestBids" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Bid Amount</th>
+                                                    <th>Time of Bid</th>
+                                                    <th>Username</th>
+                                                </tr>
+                                            </thead>
+                                            {% if latest_bids %}
+                                            <tbody>
+                                                {% for bid in latest_bids %}
+                                                <tr>
+                                                    <td>{{ bid['Bid Amount'] }}</td>
+                                                    <td>{{ bid['Time of Bid'] }}</td>
+                                                    <td>{{ bid['Username'] }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                            {% else %}
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4">No bid for this item!</td>
+                                                </tr>
+                                            </tbody>
+                                            {% endif %}
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {% if listedUser_username != currentUser_username %}
+                                <form id="bidForm" method="POST"
+                                    action="{{ url_for('bid_item', item_id=item.itemID) }}">
+                                    <input type="hidden" id="bid_item_id" name="item_id" value="">
+
+                                    <div class="form-group row">
+                                        <label for="bid_amount" class="col-sm-4 col-form-label">Your Bid $</label>
+                                        <div class="col-sm-8">
+                                            {% if mesage is defined and mesage %}
+                                            <div class="alert alert-warning">{{ mesage }}</div>
+                                            {% endif %}
+                                            <input type="text" class="form-control" id="bid_amount" name="bid_amount"
+                                                pattern="[0-9]+(\.[0-9]+)?" placeholder="Please enter a valid number" required>
+                                            {% if highest_bid %}
+                                            <div class="minBid">(minimum bid ${{ highest_bid['MaxBid'] + 1 }})</div>
+                                            {% else %}
+                                            <div class="minBid">(minimum bid ${{ item['starting_bid'] + 1 }})</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-8 offset-sm-4">
+                                            <button type="submit" id="bidThisItem" style="margin-bottom:10px;"
+                                                class="btn btn-primary btn-sm checkbox-toggle">Bid On This Item</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                {% endif %}
+                                <div class="form-group row">
+                                    <div class="col-sm-8 offset-sm-4">
+                                        {% if usertype == 'Admin' %}
+                                        <div class="item-detail item-get-it-now">
+                                            <a href="{{ url_for('cancel_item', item_id=item.itemID) }}"
+                                                class="item-get-it-now btn btn-primary btn-sm text-right">Cancel This
+                                                Item</a>
+                                        </div><br>
+                                        </form>
+                                        {% endif %}
+                                        <button type="button" style="margin-bottom:10px;"
+                                            class="btn btn-primary btn-sm  checkbox-toggle"
+                                            onclick="location.href='/search_results'">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

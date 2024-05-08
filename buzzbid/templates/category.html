@@ -1,0 +1,51 @@
+{% include 'header.html' %}
+
+<body>
+	{% include 'top_menus.html' %}
+	<div class="container">
+		{% include 'left_menus.html' %}
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-md-10">
+								<h3 class="panel-title h3"><i class="ti-harddrives"> Category Report</i></h3>
+							</div>
+						</div>
+					</div>
+
+					<br><br>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Category</th>
+								<th>Total Items</th>
+								<th>Min Price</th>
+								<th>Max Price</th>
+								<th>Average Price</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for category in categories %}
+							<tr>
+								<td>{{category.Category}}</td>
+								<td>{{category.Total_Items}}</td>
+								<td>{{category.Min_Price}}</td>
+								<td>{{category.Max_Price}}</td>
+								<td>{{category.Average_Price}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					<hr>
+					<div class="box-footer">
+						<button type="button" style="margin-bottom:10px;" class="btn btn-primary checkbox-toggle" onclick="location.href='/dashboard'">Done</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

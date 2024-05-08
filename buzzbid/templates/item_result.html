@@ -1,0 +1,67 @@
+{% include 'header.html' %}
+<body>
+ {% include 'top_menus.html' %}
+  	<div class="container">        
+      {% include 'left_menus.html' %}    
+	  	<div class="content">
+			<div class="container-fluid">   	
+				<div class="row">
+					<div class="col-md-12">
+						<div class="box-header with-border">
+							<h2 class="box-title"><i class="ti-cup"></i> Items Results</h2>
+						</div>
+						{% if mesage is defined and mesage %}
+							<div class="alert alert-warning">{{ mesage }}</div>
+						{% endif %}
+						<div class="box-body">
+							<table id="itemDetails" class="table table-bordered none">
+								<tr><th>ID</th><td>{{item[0].itemID}}</td><td><a href="{{url_for('item_rating', item_id=item[0].itemID, winner=winner)}}" class="btn btn-primary update">View Ratings</a></td></tr>
+								<tr><th>Item Name</th><td>{{item[0].item_name}}</td></tr>
+								<tr><th>Item Description</th><td>{{item[0].item_description}}</td></tr>
+								<tr><th>Category</th><td>{{item[0].category_name}}</td></tr>
+								<tr><th>Condition</th><td>{{item[0].item_condition}}</td></tr>
+								{% if item[0].returnable == '1' %}
+									<tr><th>Returns Accepted </th><td><input type="checkbox" checked disabled></td></tr>
+								{% else %}
+									<tr><th>Returns Accepted </th><td><input type="checkbox" disabled></td></tr>
+								{% endif %}
+								<tr><th>Get It Now price</th><td><label>$</label>{{item[0].get_it_now_price}}</td></tr>
+								<tr><th>Auction Ended:</th><th>{{item[0].auction_end_time}}</th></tr>
+							</table>
+							<div class="box-header with-border">
+								<h4 class="panel-title">Bid History</h2>
+							</div>
+							<table id="bidDetails" class="table table-bordered table-freeze">
+								<thead>
+									<tr>
+										<th><u>Bid Amount</u></th>
+										<th><u>Time of Bid</u></th>
+										<th><u>Username</u></th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for bid in bids %}
+									<tr>
+										<td>{{bid.BidAmount}}</td>
+										<td>{{bid.BidTime}}</td>
+										<td>{{bid.Username}}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							<script>
+								var firstRowColor = '{{ firstRowColor }}'; 
+								firstRow = document.querySelector('#bidDetails tbody > tr:first-child');
+								firstRow.style.backgroundColor = firstRowColor;
+							</script>
+						</div>
+						<div class="box-footer">
+							<button type="button" style="margin-bottom:10px;" class="btn btn-primary checkbox-toggle" onclick="location.href='/auction_results'">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+  	</div>
+</body>
+</html>

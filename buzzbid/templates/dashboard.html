@@ -1,0 +1,251 @@
+{% include 'header.html' %}
+<body>
+	{% include 'top_menus.html' %}
+	<div class="container">
+		{% include 'left_menus.html' %}
+		<div class="content">
+			<div class="container-fluid">
+				<div class="alert alert-success fade in">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					{% if session['role'] == 'Admin' %}
+					<strong><span class="ti ti-announcement fa-2x"></span> </strong> <strong>&nbsp;&nbsp;Welcome,
+						{{session['firstname']}} {{session['lastname']}}! | Position: {{session['position']}} </strong>
+					{% else %}
+					<strong><span class="ti ti-announcement fa-2x"></span> </strong> <strong>&nbsp;&nbsp;Welcome,
+						{{session['firstname']}} {{session['lastname']}}! </strong>
+					{% endif %}
+				</div>
+				{% if mesage is defined and mesage %}
+								<div class="alert alert-warning">{{ mesage }}</div>
+							{% endif %}
+				<div class="row"><!--row begins-->
+					<div>
+						<h2> Auction options</h2>
+					</div>
+
+					<div class="col-lg-3 col-sm-6">
+						<div class="card">
+							<div class="content">
+								<div class="row">
+									<div class="col-xs-5">
+										<div class="icon-big icon-warning text-center">
+											<i class="ti-search"></i>
+										</div>
+									</div>
+									<div class="col-xs-7">
+										<div class="numbers">
+											<p><strong>Search for Items </strong></p>
+										</div>
+									</div>
+								</div>
+								<a href="{{ url_for('search_items') }}">
+									<div class="footer">
+										<hr />
+										<div class="stats">
+											<i class="ti-arrow-right"></i>View
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="card">
+							<div class="content">
+								<div class="row">
+									<div class="col-xs-5">
+										<div class="icon-big icon-info text-center">
+											<i class="ti-shopping-cart"></i>
+										</div>
+									</div>
+									<div class="col-xs-7">
+										<div class="numbers">
+											<p><strong>List Items</strong></p>
+										</div>
+									</div>
+								</div>
+								<a href="{{ url_for('list_items') }}">
+									<div class="footer">
+										<hr />
+										<div class="stats">
+											<i class="ti-arrow-right"></i>View
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="card">
+							<div class="content">
+								<div class="row">
+									<div class="col-xs-5">
+										<div class="icon-big icon-success text-center">
+											<i class="ti-crown"></i>
+										</div>
+									</div>
+									<div class="col-xs-7">
+										<div class="numbers">
+											<p><strong>View Auction Results</strong></p>
+										</div>
+									</div>
+								</div>
+								<a href="{{ url_for('auction_results') }}">
+									<div class="footer">
+										<hr />
+										<div class="stats">
+											<i class="ti-arrow-right"></i>View
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div><!--row ends-->
+				<!--row begins-->
+
+				{% if session['role'] == 'Admin' %}
+
+
+				<div class="row">
+					<div>
+						<h2> Reports </h2>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="card">
+							<div class="content">
+								<div class="row">
+									<div class="col-xs-5">
+										<div class="icon-big icon-warning text-center">
+											<i class="ti-harddrives"></i>
+										</div>
+									</div>
+									<div class="col-xs-7">
+										<div class="numbers">
+											<p><strong>Category Report </strong></p>
+										</div>
+									</div>
+								</div>
+								<a href="{{ url_for('category') }}">
+									<div class="footer">
+										<hr />
+										<div class="stats">
+											<i class="ti-arrow-right"></i>View
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="card">
+							<div class="content">
+								<div class="row">
+									<div class="col-xs-5">
+										<div class="icon-big icon-success text-center">
+											<i class="ti-briefcase"></i>
+										</div>
+									</div>
+									<div class="col-xs-7">
+										<div class="numbers">
+											<p><strong>User Report </strong></p>
+										</div>
+									</div>
+								</div>
+								<a href="{{ url_for('userReport') }}">
+									<div class="footer">
+										<hr />
+										<div class="stats">
+											<i class="ti-arrow-right"></i>View
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="card">
+							<div class="content">
+								<div class="row">
+									<div class="col-xs-5">
+										<div class="icon-big icon-danger text-center">
+											<i class="ti-blackboard"></i>
+										</div>
+									</div>
+									<div class="col-xs-7">
+										<div class="numbers">
+											<p><strong>Top Rated Items</strong></p>
+										</div>
+									</div>
+								</div>
+								<a href="{{ url_for('topRated') }}">
+									<div class="footer">
+										<hr />
+										<div class="stats">
+											<i class="ti-arrow-right"></i>View
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="card">
+							<div class="content">
+								<div class="row">
+									<div class="col-xs-5">
+										<div class="icon-big icon-success text-center">
+											<i class="ti-bar-chart-alt"></i>
+										</div>
+									</div>
+									<div class="col-xs-7">
+										<div class="numbers">
+											<p><strong>Auction Statistics </strong></p>
+										</div>
+									</div>
+								</div>
+								<a href="{{ url_for('aucStats') }}">
+									<div class="footer">
+										<hr />
+										<div class="stats">
+											<i class="ti-arrow-right"></i>View
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="card">
+							<div class="content">
+								<div class="row">
+									<div class="col-xs-5">
+										<div class="icon-big icon-success text-center">
+											<i class="material-icons" style="font-size:36px">cancel</i>
+										</div>
+									</div>
+									<div class="col-xs-7">
+										<div class="numbers">
+											<p><strong>Cancelled Auctions </strong></p>
+										</div>
+									</div>
+								</div>
+								<a href="{{ url_for('canAuction') }}">
+									<div class="footer">
+										<hr />
+										<div class="stats">
+											<i class="ti-arrow-right"></i>View
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
