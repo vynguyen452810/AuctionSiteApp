@@ -1,9 +1,9 @@
-# BuzzBid BuzzBid Database Application
+# Auction Database Application
 
-## Application Description
-BuzzBid is a database application that integrates MySQL and Flask for its functionality. It serves as an auction site, facilitating auction activities for users and administrative functions for administrators. Key user activities include listing items, bidding on specific items, searching, and viewing auction results. Administrative operations involve managing user activities and auctions within the administrative scope. The application aims to offer a user-friendly interface that is easy to navigate while adhering to business constraints regarding auctions.
+## Description
+Auction Database Application named BuzzBid is a database application that integrates MySQL and Flask for its functionality. It serves as an auction site, facilitating auction activities for users and administrative functions for administrators. Key user activities include listing items, bidding on specific items, searching, and viewing auction results. Administrative operations involve managing user activities and auctions within the administrative scope. The application aims to offer a user-friendly interface that is easy to navigate while adhering to business constraints regarding auctions.
 
-## Project Phases and Components:
+## Project Components:
 1. Information Flow Diagram (IFD):
     Graphically represents how data flows within the database system between different components.
 2. Enhanced Entity-Relationship (EER) Diagram:
@@ -28,8 +28,9 @@ https://github.com/vynguyen452810/BuzzBid/blob/main/document/task_decomposition_
 
 1. **Install Dependencies:**
    Make sure you have all the necessary dependencies installed.
-    - Python 3.7
-    - Flask: !pip install Flask
+    - Python
+    - MySQL
+    - Python-Flask
     - HTML
     - CSS
     - JavaScript
@@ -38,14 +39,19 @@ https://github.com/vynguyen452810/BuzzBid/blob/main/document/task_decomposition_
    - Open a terminal or command prompt.
    - Navigate to the directory where the BuzzBid application is located.
 
-3. **Run the Application:**
+3. **Changing password for app configuration coressponding to yor MySQL host:**
+    ```bash
+        app.config["MYSQL_DB"] = "your_password_here"
+    ```
+
+4. **Run the Application:**
    - Execute the following command in the terminal or command prompt:
      ```bash
      python app.py
      ```
    This command starts the BuzzBid application.
 
-4. **Access the Application:**
+5. **Access the Application:**
    - After running the application, you will be provided with a URL, typically `http://127.0.0.1:5000`.
    - Open a web browser.
    - Enter the provided URL in the address bar and press Enter.
